@@ -103,7 +103,7 @@ app.get("/api/user2", async (req, res) => {
 //Route to add data of the user1 purchase
 
 app.post("/api/user1purchase", async (req, res) => {
-  const newData = new user1purchase({
+  const newData = new User1purchase({
     title: req.body.title,
     amount: req.body.amount
   });
@@ -119,7 +119,7 @@ app.post("/api/user1purchase", async (req, res) => {
 //route to add the user2 purchase 
 
 app.post("/api/user2purchase", async (req, res) => {
-  const newData = new user2purchase({
+  const newData = new User2purchase({
     title: req.body.title,
     amount: req.body.amount
   });
