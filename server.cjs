@@ -40,6 +40,14 @@ const user1purchaseSchema = new mongoose.Schema({
 const User1purchase = mongoose.model("user1purchase", user1purchaseSchema);
 
 
+const user2purchaseSchema = new mongoose.Schema({
+  title: String,
+  amount: Number
+});
+
+const User2purchase = mongoose.model("user2purchase", user1purchaseSchema);
+
+
 app.use(bodyParser.json());
 
 // Route to add data to user1 collection
@@ -70,8 +78,8 @@ app.get("/api/user1", async (req, res) => {
 // Route to add data to user2 collection
 app.post("/api/user2", async (req, res) => {
   const newData = new User2({
-    name: req.body.title,
-    quantity: req.body.amount
+    title: req.body.title,
+    amount: req.body.amount
   });
 
   try {
@@ -96,8 +104,24 @@ app.get("/api/user2", async (req, res) => {
 
 app.post("/api/user1purchase", async (req, res) => {
   const newData = new user1purchase({
-    name: req.body.title,
-    quantity: req.body.amount
+    title: req.body.title,
+    amount: req.body.amount
+  });
+
+  try {
+    const savedData = await newData.save();
+    res.status(201).json(savedData);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+});
+
+//route to add the user2 purchase 
+
+app.post("/api/user2purchase", async (req, res) => {
+  const newData = new user2purchase({
+    title: req.body.title,
+    amount: req.body.amount
   });
 
   try {
@@ -114,6 +138,17 @@ app.post("/api/user1purchase", async (req, res) => {
 app.get("/api/user1purchase", async (req, res) => {
   try {
     const userData = await user1purchase.find();
+    res.status(200).json(userData);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+//route to get the user2 purchase
+
+app.get("/api/user2purchase", async (req, res) => {
+  try {
+    const userData = await user2purchase.find();
     res.status(200).json(userData);
   } catch (err) {
     res.status(500).json({ message: err.message });
