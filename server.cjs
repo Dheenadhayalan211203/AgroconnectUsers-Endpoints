@@ -30,6 +30,16 @@ const user2Schema = new mongoose.Schema({
 
 const User2 = mongoose.model("user2", user2Schema);
 
+//schema for adding the purchasing product
+
+const user1purchaseSchema = new mongoose.Schema({
+  title: String,
+  amount: Number
+});
+
+const User1purchase = mongoose.model("user1purchase", user1purchaseSchema);
+
+
 app.use(bodyParser.json());
 
 // Route to add data to user1 collection
@@ -81,6 +91,35 @@ app.get("/api/user2", async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 });
+
+//Route to add data of the user1 purchase
+
+app.post("/api/user1purchase", async (req, res) => {
+  const newData = new user1purchase({
+    name: req.body.title,
+    quantity: req.body.amount
+  });
+
+  try {
+    const savedData = await newData.save();
+    res.status(201).json(savedData);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+});
+
+//route to get the user1 purchase
+
+
+app.get("/api/user1purchase", async (req, res) => {
+  try {
+    const userData = await user1purchase.find();
+    res.status(200).json(userData);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
