@@ -45,7 +45,7 @@ const user2purchaseSchema = new mongoose.Schema({
   amount: Number
 });
 
-const User2purchase = mongoose.model("user2purchase", user1purchaseSchema);
+const User2purchase = mongoose.model("user2purchase", user2purchaseSchema);
 
 
 app.use(bodyParser.json());
@@ -100,8 +100,7 @@ app.get("/api/user2", async (req, res) => {
   }
 });
 
-//Route to add data of the user1 purchase
-
+// Route to add data of the user1 purchase
 app.post("/api/user1purchase", async (req, res) => {
   const newData = new User1purchase({
     title: req.body.title,
@@ -112,12 +111,12 @@ app.post("/api/user1purchase", async (req, res) => {
     const savedData = await newData.save();
     res.status(201).json(savedData);
   } catch (err) {
+    console.error("Error:", err); // Logging error for debugging
     res.status(400).json({ message: err.message });
   }
 });
 
-//route to add the user2 purchase 
-
+// Route to add data of the user2 purchase
 app.post("/api/user2purchase", async (req, res) => {
   const newData = new User2purchase({
     title: req.body.title,
@@ -128,33 +127,32 @@ app.post("/api/user2purchase", async (req, res) => {
     const savedData = await newData.save();
     res.status(201).json(savedData);
   } catch (err) {
+    console.error("Error:", err); // Logging error for debugging
     res.status(400).json({ message: err.message });
   }
 });
 
-//route to get the user1 purchase
-
-
+// Route to get data of the user1 purchase
 app.get("/api/user1purchase", async (req, res) => {
   try {
-    const userData = await user1purchase.find();
+    const userData = await User1purchase.find();
     res.status(200).json(userData);
   } catch (err) {
+    console.error("Error:", err); // Logging error for debugging
     res.status(500).json({ message: err.message });
   }
 });
 
-//route to get the user2 purchase
-
+// Route to get data of the user2 purchase
 app.get("/api/user2purchase", async (req, res) => {
   try {
-    const userData = await user2purchase.find();
+    const userData = await User2purchase.find();
     res.status(200).json(userData);
   } catch (err) {
+    console.error("Error:", err); // Logging error for debugging
     res.status(500).json({ message: err.message });
   }
 });
-
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
