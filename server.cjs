@@ -24,8 +24,8 @@ const User1 = mongoose.model("user1", user1Schema);
 
 // Define schema and model for user2 collection
 const user2Schema = new mongoose.Schema({
-  name: String,
-  quantity: Number
+  title: String,
+  amount: Number
 });
 
 const User2 = mongoose.model("user2", user2Schema);
@@ -60,8 +60,8 @@ app.get("/api/user1", async (req, res) => {
 // Route to add data to user2 collection
 app.post("/api/user2", async (req, res) => {
   const newData = new User2({
-    name: req.body.name,
-    quantity: req.body.quantity
+    name: req.body.title,
+    quantity: req.body.amount
   });
 
   try {
